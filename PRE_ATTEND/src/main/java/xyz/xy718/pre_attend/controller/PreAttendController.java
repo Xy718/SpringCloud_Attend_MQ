@@ -39,6 +39,7 @@ public class PreAttendController {
             sendResult = rocketMQService.sendMsg(msg) ;
         } catch (Exception e) {
             e.printStackTrace();
+            return ResultBean.error("签到失败，请重试"+e.getMessage());
         }
         return ResultBean.success(sendResult) ;
     }
