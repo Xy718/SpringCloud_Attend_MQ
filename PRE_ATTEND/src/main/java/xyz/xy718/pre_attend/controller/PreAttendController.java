@@ -1,10 +1,15 @@
 package xyz.xy718.pre_attend.controller;
 
+import org.apache.rocketmq.client.producer.SendResult;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import xyz.xy718.ResultBean;
+import xyz.xy718.pre_attend.service.RocketMQService;
+
+import javax.annotation.Resource;
 
 /**
  * @author: Xy718
@@ -17,13 +22,24 @@ public class PreAttendController {
 
     @Value("${server.port}")
     String port;
+    @Resource
+    RocketMQService rocketMQService;
+
     /**
      * 根据卡号提交记录
+     * @return
      */
     @PostMapping("/code")
-    public String attendOfCode(
+    public ResultBean attendOfCode(
         @RequestParam("code")String code
     ){
-        return "1 "+code+":"+port;
+        String msg="attend_record:"+code;
+        SendResult sendResult = null;
+        try {
+            sendResult = rocketMQService.sendMsg(msg) ;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResultBean.success(sendResult) ;
     }
 }
