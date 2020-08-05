@@ -1,5 +1,6 @@
 package xyz.xy718.pre_attend.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping("/attend")
+@Slf4j
 public class PreAttendController {
 
     @Value("${server.port}")
@@ -33,7 +35,8 @@ public class PreAttendController {
     public ResultBean attendOfCode(
         @RequestParam("code")String code
     ){
-        String msg="attend_record:"+code;
+        log.info("签到："+code);
+        String msg=code;
         SendResult sendResult = null;
         try {
             sendResult = rocketMQService.sendMsg(msg) ;

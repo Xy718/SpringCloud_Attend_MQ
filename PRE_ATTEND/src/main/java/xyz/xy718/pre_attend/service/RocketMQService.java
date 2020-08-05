@@ -26,13 +26,16 @@ public class RocketMQService {
     private DefaultMQProducer defaultMQProducer;
 
     public SendResult sendMsg(String msgInfo) {
-        // 可以不使用Config中的Group
+        // 可以不使用Config中的Group,随你
         defaultMQProducer.setProducerGroup(rocketGroup);
         SendResult sendResult = null;
         try {
-            Message sendMsg = new Message(rocketTopic,
-                    rocketTag,
-                    "open_account_key", msgInfo.getBytes());
+            Message sendMsg = new Message(
+                rocketTopic,
+                rocketTag,
+                "pre_attend_msg",
+                msgInfo.getBytes()
+            );
             sendResult = defaultMQProducer.send(sendMsg);
         } catch (Exception e) {
             e.printStackTrace();
