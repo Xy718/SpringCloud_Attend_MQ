@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 public class ProducerConfig {
     private static final Logger logger = LoggerFactory.getLogger(ProducerConfig.class) ;
 
-    @Value("${rocketmq.producer.groupName}")
+    @Value("${rocket.group}")
     private String groupName;
     @Value("${rocketmq.producer.namesrvAddr}")
     private String namesrvAddr;

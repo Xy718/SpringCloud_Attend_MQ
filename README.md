@@ -7,8 +7,10 @@
 项目结构:
 ```
 SpringCloud_Attend_MQ
-  服务项目         服务名                  端口
-├ EUREKA_SERVER   注册中心              11800-11802
-├ GATEWAY         API网关               12810-12819
-└ PRE_ATTEND      签到打卡预处理服务     13100-13109
+  服务项目           服务名                  端口
+├ ATTEND_RECORDER  签到记录服务           13200-13209
+├ EUREKA_SERVER    注册中心              11800-11802
+├ GATEWAY          API网关               12810-12819
+├ MODEL            业务对象Entity等等
+└ PRE_ATTEND       签到预处理服务         13100-13109
 ```
