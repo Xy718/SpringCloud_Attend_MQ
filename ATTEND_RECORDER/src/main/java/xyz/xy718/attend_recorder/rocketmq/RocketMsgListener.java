@@ -12,6 +12,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.List;
 
 /**
+ * 签到消息监听
  * @author: Xy718
  * @date: 2020/8/4 17:42
  * @description:
@@ -24,15 +25,18 @@ public class RocketMsgListener implements MessageListenerConcurrently{
     public String rocketTopic ;
 
     @Override
-    public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> list, ConsumeConcurrentlyContext consumeConcurrentlyContext) {
+    public ConsumeConcurrentlyStatus consumeMessage(
+            List<MessageExt> list
+            , ConsumeConcurrentlyContext consumeConcurrentlyContext
+    ) {
         if (CollectionUtils.isEmpty(list)){
             return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
         }
         MessageExt messageExt = list.get(0);
-        logger.info("接受到的消息为："+new String(messageExt.getBody()));
+        logger.info("签到人为："+new String(messageExt.getBody()));
         int reConsume = messageExt.getReconsumeTimes();
         // 消息已经重试了3次，如果不需要再次消费，则返回成功
-        if(reConsume ==3){
+        if(reConsume >=3){
             return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
         }
 
