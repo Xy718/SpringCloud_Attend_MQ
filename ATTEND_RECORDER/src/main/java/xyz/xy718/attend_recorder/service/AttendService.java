@@ -21,16 +21,20 @@ public class AttendService {
         int coded;
         long timeStamped;
         try {
+            //parsing
             coded=Integer.parseInt(code);
             timeStamped=Long.parseLong(timeStamp);
         } catch (NumberFormatException e) {
             e.printStackTrace();
             return Optional.ofNullable(false);
         }
+        //查找当前签到目标ID与签到时间是否已有登记
         Optional<AttendRecord> isAlready=arRepo.findByTargetIdAndRecordTime(coded,timeStamped);
         if(isAlready.isPresent()){
+            //如果有（重复）就返回签到成功
             return Optional.ofNullable(true);
         }
+        //如果没有签到，就登记签到
         AttendRecord record=arRepo.save(new AttendRecord(coded,0,timeStamped));
         if(record!=null){
             return Optional.ofNullable(true);
